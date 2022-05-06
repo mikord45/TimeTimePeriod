@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TimeAndTimePeriod
 {
-    public class Time
+    public class Time: IComparable<Time>, IEquatable<Time>
     {
         private byte Hours { get; }
 
@@ -95,6 +95,61 @@ namespace TimeAndTimePeriod
                 chunkConvertedToString = "0" + chunkConvertedToString;
             }
             return chunkConvertedToString;
+        }
+
+        public int CompareTo(Time that)
+        {
+            if(this.Hours > that.Hours)
+            {
+                return 1;
+            }
+            else if(this.Hours < that.Hours)
+            {
+                return -1;
+            }
+            else if(this.Minutes > that.Minutes)
+            {
+                return 1;
+            }
+            else if(this.Minutes < that.Minutes)
+            {
+                return -1;
+            }
+            else if(this.Seconds > that.Seconds)
+            {
+                return 1;
+            }
+            else if(this.Seconds < that.Seconds)
+            {
+                return -1;
+            }
+            return 0;
+        }
+
+        public bool Equals(Time that)
+        {
+            if (this.Hours == that.Hours && this.Minutes == this.Minutes && this.Seconds == this.Seconds)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public override bool Equals(Object that)
+        {
+            if (that == null)
+                return false;
+
+            Time timeObj = that as Time;
+            if (timeObj == null)
+                return false;
+            else
+                return Equals(timeObj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Hours, Minutes, Seconds);
         }
     }
 }
