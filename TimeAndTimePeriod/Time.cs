@@ -128,7 +128,7 @@ namespace TimeAndTimePeriod
 
         public bool Equals(Time that)
         {
-            if (this.Hours == that.Hours && this.Minutes == this.Minutes && this.Seconds == this.Seconds)
+            if (this != null && this.Hours == that.Hours && this.Minutes == this.Minutes && this.Seconds == this.Seconds)
             {
                 return true;
             }
