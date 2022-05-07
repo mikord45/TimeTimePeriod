@@ -38,6 +38,17 @@ namespace TimeAndTimePeriod
             Console.WriteLine(time.Equals((object)time2));
             Console.WriteLine(time3.Equals(time4));
             Console.WriteLine(time4.Equals(time5));
+            Console.WriteLine(time4.Equals((object)time5));
+            Console.WriteLine("------");
+            Console.WriteLine(time2 > time3);
+            Console.WriteLine(time2 < time3);
+            Console.WriteLine(time2 == time3);
+            Console.WriteLine(time2 != time3);
+            Console.WriteLine(time4 >= time5);
+            Console.WriteLine(time5 <= time4);
+            Console.WriteLine(time4 == time5);
+            Console.WriteLine(time5 != time4);
+            Console.WriteLine(time2 + time3);
         }
     }
 }

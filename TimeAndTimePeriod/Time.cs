@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TimeAndTimePeriod
 {
-    public class Time: IComparable<Time>, IEquatable<Time>
+    public class Time : IComparable<Time>, IEquatable<Time>
     {
         private byte Hours { get; }
 
@@ -28,7 +28,7 @@ namespace TimeAndTimePeriod
             {
                 throw new Exception("Provided arguments are not valid for type Time", ex);
             }
-            
+
         }
         public Time(byte Hours, byte Minutes)
         {
@@ -71,7 +71,7 @@ namespace TimeAndTimePeriod
             try
             {
                 var splited = timeString.Split(":");
-                
+
                 this.Hours = (byte)Int32.Parse(splited[0]);
                 this.Minutes = (byte)Int32.Parse(splited[1]);
                 this.Seconds = (byte)Int32.Parse(splited[2]);
@@ -90,7 +90,7 @@ namespace TimeAndTimePeriod
         {
             int chunkConvertedToInt = Convert.ToInt32(chunk);
             string chunkConvertedToString = Convert.ToString(chunkConvertedToInt);
-            if(chunkConvertedToString.Length == 1)
+            if (chunkConvertedToString.Length == 1)
             {
                 chunkConvertedToString = "0" + chunkConvertedToString;
             }
@@ -99,36 +99,78 @@ namespace TimeAndTimePeriod
 
         public int CompareTo(Time that)
         {
-            if(this.Hours > that.Hours)
+            if (this.Hours > that.Hours)
             {
                 return 1;
             }
-            else if(this.Hours < that.Hours)
+            else if (this.Hours < that.Hours)
             {
                 return -1;
             }
-            else if(this.Minutes > that.Minutes)
+            else if (this.Minutes > that.Minutes)
             {
                 return 1;
             }
-            else if(this.Minutes < that.Minutes)
+            else if (this.Minutes < that.Minutes)
             {
                 return -1;
             }
-            else if(this.Seconds > that.Seconds)
+            else if (this.Seconds > that.Seconds)
             {
                 return 1;
             }
-            else if(this.Seconds < that.Seconds)
+            else if (this.Seconds < that.Seconds)
             {
                 return -1;
             }
             return 0;
         }
 
+        public static bool operator <(Time a, Time b)
+        {
+            return a.CompareTo(b) < 0;
+        }
+
+        public static bool operator >(Time a, Time b)
+        {
+            return a.CompareTo(b) > 0;
+        }
+
+        public static bool operator <=(Time a, Time b)
+        {
+            return a.CompareTo(b) <= 0;
+        }
+
+        public static bool operator >=(Time a, Time b)
+        {
+            return a.CompareTo(b) >= 0;
+        }
+
+        public static bool operator ==(Time a, Time b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Time a, Time b)
+        {
+            return !(a.Equals(b));
+        }
+
+
+        public static Time operator +(Time a, Time b)
+        {
+            int seconds = ((int)a.Seconds + (int)b.Seconds) % 60;
+            int additionalMinutes = ((int)a.Seconds + (int)b.Seconds) / 60;
+            int minutes = ((int)a.Minutes + (int)b.Minutes + additionalMinutes) % 60;
+            int additionalHours = ((int)a.Minutes + (int)b.Minutes + additionalMinutes) / 60;
+            int hours = ((int)a.Hours + (int)b.Hours + additionalHours) % 24;
+
+            return new Time((byte)hours, (byte)minutes, (byte)seconds);
+        }
         public bool Equals(Time that)
         {
-            if (this != null && this.Hours == that.Hours && this.Minutes == this.Minutes && this.Seconds == this.Seconds)
+
+            if (!(this is null) && this.Hours == that.Hours && this.Minutes == that.Minutes && this.Seconds == that.Seconds)
             {
                 return true;
             }
@@ -141,7 +183,7 @@ namespace TimeAndTimePeriod
                 return false;
 
             Time timeObj = that as Time;
-            if (timeObj == null)
+            if (timeObj is null)
                 return false;
             else
                 return Equals(timeObj);
