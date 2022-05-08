@@ -4,13 +4,13 @@ using System.Text;
 
 namespace TimeAndTimePeriod
 {
-    public class Time : IComparable<Time>, IEquatable<Time>
+    public struct Time : IComparable<Time>, IEquatable<Time>
     {
-        private byte Hours { get; }
+        public byte Hours { get; }
 
-        private byte Minutes { get; }
+        public byte Minutes { get; }
 
-        private byte Seconds { get; }
+        public byte Seconds { get; }
 
         public Time(byte Hours, byte Minutes, byte Seconds)
         {
@@ -71,10 +71,17 @@ namespace TimeAndTimePeriod
             try
             {
                 var splited = timeString.Split(":");
-
-                this.Hours = (byte)Int32.Parse(splited[0]);
-                this.Minutes = (byte)Int32.Parse(splited[1]);
-                this.Seconds = (byte)Int32.Parse(splited[2]);
+                
+                byte hours = (byte)Int32.Parse(splited[0]);
+                byte minutes = (byte)Int32.Parse(splited[1]);
+                byte seconds = (byte)Int32.Parse(splited[2]);
+                if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59)
+                {
+                    throw new Exception("Hours value must be between 0 and 23, Minutes value must be between 0 and 59, Seconds value must be between 0 and 59");
+                }
+                this.Hours = hours;
+                this.Minutes = minutes;
+                this.Seconds = seconds;
             }
             catch (Exception ex)
             {
@@ -167,10 +174,33 @@ namespace TimeAndTimePeriod
 
             return new Time((byte)hours, (byte)minutes, (byte)seconds);
         }
+
+        public Time Plus(TimePeriod timePeriod)
+        {
+            long currentSeconds = this.Hours * 60 * 60 + this.Minutes * 60 + this.Seconds;
+            long addedSeconds = currentSeconds + timePeriod.Seconds;
+            long hours = (addedSeconds / 3600) % 24;
+            long minutes = (addedSeconds - ((addedSeconds / 3600) * 3600)) / 60;
+            long seconds = addedSeconds % 60;
+
+            return new Time((byte)hours, (byte)minutes, (byte)seconds);
+        }
+
+        public static Time Plus(Time time, TimePeriod timePeriod)
+        {
+            long currentSeconds = time.Hours * 60 * 60 + time.Minutes * 60 + time.Seconds;
+            long addedSeconds = currentSeconds + timePeriod.Seconds;
+            long hours = (addedSeconds / 3600) % 24;
+            long minutes = (addedSeconds - ((addedSeconds / 3600) * 3600)) / 60;
+            long seconds = addedSeconds % 60;
+
+            return new Time((byte)hours, (byte)minutes, (byte)seconds);
+        }
+
         public bool Equals(Time that)
         {
 
-            if (!(this is null) && this.Hours == that.Hours && this.Minutes == that.Minutes && this.Seconds == that.Seconds)
+            if (this.Hours == that.Hours && this.Minutes == that.Minutes && this.Seconds == that.Seconds)
             {
                 return true;
             }
@@ -182,11 +212,8 @@ namespace TimeAndTimePeriod
             if (that == null)
                 return false;
 
-            Time timeObj = that as Time;
-            if (timeObj is null)
-                return false;
-            else
-                return Equals(timeObj);
+            Time timeObj = (Time)that;
+            return Equals(timeObj);
         }
 
         public override int GetHashCode()
