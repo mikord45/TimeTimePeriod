@@ -205,6 +205,13 @@ namespace TimeAndTimePeriod
             return new TimePeriod(addedSeconds);
         }
 
+        public static TimePeriod Plus(TimePeriod timePeriod1, TimePeriod timePeriod2, TimePeriod timePeriod3)
+        {
+            long addedSeconds = timePeriod1.Seconds + timePeriod2.Seconds + timePeriod3.Seconds;
+
+            return new TimePeriod(addedSeconds);
+        }
+
         public bool Equals(TimePeriod that)
         {
 

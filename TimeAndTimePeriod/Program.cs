@@ -116,6 +116,8 @@ namespace TimeAndTimePeriod
             Console.WriteLine(TimePeriod9.ToString());
             TimePeriod timePeriod10 = TimePeriod.Plus(timePeriod2, timePeriod3);
             Console.WriteLine(timePeriod10.ToString());
+            TimePeriod timePeriod11 = TimePeriod.Plus(timePeriod2, timePeriod3, timePeriod4);
+            Console.WriteLine(timePeriod11.ToString());
         }
     }
 }
