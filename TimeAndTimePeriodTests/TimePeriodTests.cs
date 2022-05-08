@@ -104,11 +104,22 @@ namespace TimeAndTimePeriodTests
             Assert.IsTrue(timePeriod1 != timePeriod2);
             Assert.IsFalse(timePeriod6 != timePeriod6_2);
         }
+
         [TestMethod]
         public void SumOperatorTests()
         {
             TimePeriod timePeriod8 = timePeriod1 + timePeriod2;
             Assert.AreEqual(timePeriod8.Seconds, 247501);
+        }
+
+        [TestMethod]
+        public void DiffOperatorTests()
+        {
+            TimePeriod timePeriodHelper = timePeriod1 - timePeriod2;
+            Assert.AreEqual(timePeriodHelper.Seconds, 76621);
+            TimePeriod timePeriodHelper2 = timePeriod2 - timePeriod1;
+            Assert.AreEqual(timePeriodHelper2.Seconds, 0);
+
         }
 
         [TestMethod]

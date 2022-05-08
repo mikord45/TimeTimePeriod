@@ -174,6 +174,24 @@ namespace TimeAndTimePeriod
 
             return new Time((byte)hours, (byte)minutes, (byte)seconds);
         }
+        public static Time operator -(Time a, Time b)
+        {
+            int aSeconds = a.Hours * 3600 + a.Minutes * 60 + a.Seconds;
+            int bSeconds = b.Hours * 3600 + b.Minutes * 60 + b.Seconds;
+
+            int resultSeconds = aSeconds - bSeconds;
+
+            if(resultSeconds <= 0)
+            {
+                return new Time(0, 0, 0);
+            }
+            long hours = resultSeconds / 3600;
+            long minutes = (resultSeconds - hours * 3600) / 60;
+            long seconds = resultSeconds % 60;
+
+            return new Time((byte)hours, (byte)minutes, (byte)seconds);
+        }
+
 
         public Time Plus(TimePeriod timePeriod)
         {

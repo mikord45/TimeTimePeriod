@@ -191,6 +191,17 @@ namespace TimeAndTimePeriod
             return new TimePeriod(seconds);
         }
 
+        public static TimePeriod operator -(TimePeriod a, TimePeriod b)
+        {
+            if(a >= b)
+            {
+                long seconds = a.Seconds - b.Seconds;
+
+                return new TimePeriod(seconds);
+            }
+            return new TimePeriod(0);
+        }
+
         public TimePeriod Plus(TimePeriod timePeriod)
         {
             long addedSeconds = this.Seconds + timePeriod.Seconds;

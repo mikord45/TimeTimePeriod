@@ -103,6 +103,19 @@ namespace TimeAndTimePeriodTests
         }
 
         [TestMethod]
+        public void DiffOperatorTests()
+        {
+            Time timeHelper = time2 - time3;
+            Assert.AreEqual(timeHelper.Hours, 0);
+            Assert.AreEqual(timeHelper.Minutes, 0);
+            Assert.AreEqual(timeHelper.Seconds, 0);
+            Time timeHelper2 = time3 - time2;
+            Assert.AreEqual(timeHelper2.Hours, 0);
+            Assert.AreEqual(timeHelper2.Minutes, 35);
+            Assert.AreEqual(timeHelper2.Seconds, 28);
+        }
+
+        [TestMethod]
         public void SumFunctionsTests()
         {
             TimePeriod timePeriod = new TimePeriod(15, 44, 33);
